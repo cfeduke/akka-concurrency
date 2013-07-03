@@ -3,8 +3,9 @@ package com.deploymentzone.avionics
 import akka.actor.{ActorRef, Actor}
 
 object ControlSurfaces {
-  case class StickBack(amount: Float)
-  case class StickForward(amount: Float)
+  sealed abstract class StickCommand
+  case class StickBack(amount: Float) extends StickCommand
+  case class StickForward(amount: Float) extends StickCommand
 }
 
 class ControlSurfaces(altimeter: ActorRef) extends Actor {
