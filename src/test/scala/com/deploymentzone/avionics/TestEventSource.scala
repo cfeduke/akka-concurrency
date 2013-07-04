@@ -2,8 +2,7 @@ package com.deploymentzone.avionics
 
 import akka.actor.{ActorSystem, Actor}
 import akka.testkit.{TestActorRef, TestKit}
-import org.scalatest.{BeforeAndAfterAll, WordSpecLike}
-import org.scalatest.Matchers
+import org.scalatest.{ParallelTestExecution, BeforeAndAfterAll, WordSpecLike, Matchers}
 
 class TestEventSource extends Actor with ProductionEventSource {
   def receive = eventSourceReceive
@@ -12,7 +11,9 @@ class TestEventSource extends Actor with ProductionEventSource {
 class EventSourceSpec extends TestKit(ActorSystem("EventSourceSpec"))
   with WordSpecLike
   with Matchers
-  with BeforeAndAfterAll {
+  with BeforeAndAfterAll
+  with ParallelTestExecution {
+
   import EventSource._
 
   override def afterAll() { system.shutdown() }
