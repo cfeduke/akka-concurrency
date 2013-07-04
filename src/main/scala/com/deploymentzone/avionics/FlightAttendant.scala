@@ -14,7 +14,7 @@ object FlightAttendant {
   case class Drink(drinkName: String)
 
   def apply() = new FlightAttendant with AttendantResponsiveness {
-    val maxResponseTimeMS = 5.minutes
+    val maxResponseTimeMS = 5.minutes.toMillis.toInt
   }
 }
 
