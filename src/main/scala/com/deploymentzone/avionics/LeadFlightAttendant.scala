@@ -24,7 +24,7 @@ class LeadFlightAttendant extends Actor {
   override def preStart() {
     import scala.collection.JavaConverters._
     val attendantNames =
-      context.system.settings.config.getStringList("com.deploymentzone.avionics.flightCrew.attendantNames").asScala
+      context.system.settings.config.getStringList("com.deploymentzone.avionics.flightcrew.attendantNames").asScala
     attendantNames take numberOfAttendants foreach { name => context.actorOf(Props(createAttendant), name) }
   }
 

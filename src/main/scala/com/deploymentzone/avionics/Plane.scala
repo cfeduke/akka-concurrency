@@ -1,10 +1,11 @@
 package com.deploymentzone.avionics
 
-import akka.actor.{Props, Actor, ActorLogging}
+import akka.actor.{ActorRef, Props, Actor, ActorLogging}
 import com.deploymentzone.avionics.EventSource.RegisterListener
 
 object Plane {
   case object GiveMeControl
+  case class Controls(controls: ActorRef)
 }
 
 class Plane extends Actor with ActorLogging {
@@ -21,7 +22,7 @@ class Plane extends Actor with ActorLogging {
   def receive = {
     case GiveMeControl =>
       log.info("Plane giving control")
-      sender ! controls
+      sender ! Controls(controls)
     case AltitudeUpdate(altitude) =>
       log.info(s"Altitude is now: $altitude")
   }
