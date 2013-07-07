@@ -7,7 +7,7 @@ object IsolatedLifeCycleSupervisor {
   case object Started
 }
 
-class IsolatedLifeCycleSupervisor extends Actor {
+abstract class IsolatedLifeCycleSupervisor extends Actor {
   import IsolatedLifeCycleSupervisor._
 
   def receive = {
