@@ -12,11 +12,18 @@ class Plane extends Actor with ActorLogging {
   import Altimeter._
   import Plane._
 
+  val configKeyPrefix = "com.deploymentzone.avionics.flightcrew"
   val altimeter = context.actorOf(Props(Altimeter()), "Altimeter")
   val controls = context.actorOf(Props(new ControlSurfaces(altimeter)), "ControlSurfaces")
+  val cfg = context.system.settings.config
+  val pilot = context.actorOf(Props[Pilot], cfg.getString(s"$configKeyPrefix.pilotName"))
+  val copilot = context.actorOf(Props[Copilot], cfg.getString(s"$configKeyPrefix.copilotName"))
+//  val autopilot = context.actorOf(Props[AutoPilot])
+  val flightAttendant = context.actorOf(Props(LeadFlightAttendant()), cfg.getString(s"$configKeyPrefix.leadAttendantName"))
 
   override def preStart() {
     altimeter ! RegisterListener(self)
+    List(pilot, copilot) foreach { _ ! Pilots.ReadyToGo }
   }
 
   def receive = {
