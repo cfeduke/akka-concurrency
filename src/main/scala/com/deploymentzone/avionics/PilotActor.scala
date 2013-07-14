@@ -11,16 +11,15 @@ abstract class PilotActor extends Actor {
   import Pilots._
   import Plane._
 
-  var controls: ActorRef = context.system.deadLetters
   var associatePilot: ActorRef = context.system.deadLetters
   var autopilot: ActorRef = context.system.deadLetters
-  abstract def associatePilotName : String
+  def associatePilotName : String
 
   def receive = {
     case ReadyToGo =>
       context.parent ! GiveMeControl
       associatePilot = context.actorFor("../" + associatePilotName)
-      autopilot = context.actorFor("../Autopilot")
+//      autopilot = context.actorFor("../Autopilot")
 
   }
 }
